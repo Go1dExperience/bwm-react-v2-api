@@ -1,4 +1,4 @@
-import { Rental } from "../../lib/db/models";
+import { Booking, Rental } from "../../lib/db/models";
 import TYPES from "../../types/DI";
 import { UserRepository } from "./../../repositories/user.repository";
 import { injectable, inject } from "inversify";
@@ -9,7 +9,7 @@ export class UserService {
     @inject(TYPES.UserRepository)
     private userRepository: UserRepository
   ) {}
-  findRentalForUser(userId: string) {
+  public findRentalForUser = (userId: string) => {
     return this.userRepository.findAll({
       where: {
         id: userId,

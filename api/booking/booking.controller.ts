@@ -3,35 +3,45 @@ import { inject, injectable } from "inversify";
 import moment from "moment";
 
 import { Booking, User } from "../../lib/db/models";
-import { RentalRepository } from "../../repositories/rental.repository";
 import TYPES from "../../types/DI";
-import { BookingService } from "./booking.service";
-import { CreateBookingPayload } from "./booking.type";
+import { CustomError } from "../../utils/customError";
 import { RentalService } from "../rental/rental.service";
+import { CreateBookingPayload } from "./booking.type";
+import { createErrorResponse } from "../../utils/apiResponse";
+import logger from "../../utils/logger";
+import { BookingService } from "./booking.service";
 
 @injectable()
 export class BookingController {
   constructor(
-    @inject(TYPES.UserService)
-    private bookingService: BookingService,
-    @inject(TYPES.RentalService)
-    private rentalService: RentalService
+    @inject(TYPES.BookingService)
+    private bookingService: BookingService
   ) {}
   createBooking = async (req: Request, res: Response) => {
-    const { startAt, endAt, totalPrice, guests, days, rental } =
-      req.body as CreateBookingPayload;
-    const startTime = moment(startAt, "Y/MM/DD").add(1, "day");
-    const endTime = moment(endAt, "Y/MM/DD");
-    // User was saved by User Controller.
-    const user: User = res.locals.user;
-    const booking = new Booking({ startAt, endAt, totalPrice, guests, days });
-
-    const response = await this.rentalService.createBookingForRental(
-      rental.id,
-      booking,
-      user.id
-    );
-
+    try {
+      const { startAt, endAt, totalPrice, guests, days, rental } =
+        req.body as CreateBookingPayload;
+      const startTime = moment(startAt, "Y/MM/DD").add(1, "day");
+      const endTime = moment(endAt, "Y/MM/DD");
+      // User was saved by User Controller.
+      const user: User = res.locals.user;
+      const booking = new Booking({ startAt, endAt, totalPrice, guests, days });
+      const response = await this.bookingService.createBookingForRental(
+        rental.id,
+        booking,
+        user.id
+      );
+    } catch (error) {
+      if (error instanceof CustomError) {
+        res
+          .status(error.statusCode)
+          .send(createErrorResponse(error.statusCode, error.message));
+        return;
+      }
+      logger.log(`Error creating booking: ${error}`);
+      res.status(500).send({ error: "Internal server error" });
+      return;
+    }
     // Rental.findById(rental._id)
     //   .populate("bookings")
     //   .populate("user")
