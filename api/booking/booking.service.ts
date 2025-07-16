@@ -61,10 +61,15 @@ export class BookingService {
         "This property is already booked in the chosen range"
       );
     }
-    return await this.bookingRepository.create({
+    const response = await this.bookingRepository.create({
       ...booking,
       userId,
       rentalId: rental.id,
     });
+    return {
+      data: response,
+      errorCode: null,
+      message: "Booking created successfully"
+    }
   };
 }

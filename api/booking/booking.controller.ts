@@ -7,7 +7,10 @@ import TYPES from "../../types/DI";
 import { CustomError } from "../../utils/customError";
 import { RentalService } from "../rental/rental.service";
 import { CreateBookingPayload } from "./booking.type";
-import { createErrorResponse } from "../../utils/apiResponse";
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from "../../utils/apiResponse";
 import logger from "../../utils/logger";
 import { BookingService } from "./booking.service";
 
@@ -21,16 +24,22 @@ export class BookingController {
     try {
       const { startAt, endAt, totalPrice, guests, days, rental } =
         req.body as CreateBookingPayload;
-      const startTime = moment(startAt, "Y/MM/DD").add(1, "day");
-      const endTime = moment(endAt, "Y/MM/DD");
-      // User was saved by User Controller.
+      const startTime = moment(startAt, "Y/MM/DD").add(1, "day").toDate();
+      const endTime = moment(endAt, "Y/MM/DD").toDate();
       const user: User = res.locals.user;
-      const booking = new Booking({ startAt, endAt, totalPrice, guests, days });
+      const booking = new Booking({
+        startAt: startTime,
+        endAt: endTime,
+        totalPrice,
+        guests,
+        days,
+      });
       const response = await this.bookingService.createBookingForRental(
         rental.id,
         booking,
         user.id
       );
+      res.status(200).send(createSuccessResponse(response));
     } catch (error) {
       if (error instanceof CustomError) {
         res
