@@ -5,9 +5,11 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
+  NonAttribute,
 } from "sequelize";
 import { User } from "./user";
 import { sequelize } from "../sequelize";
+import { Booking } from "./booking";
 
 export class Rental extends Model<
   InferAttributes<Rental>,
@@ -25,7 +27,8 @@ export class Rental extends Model<
   declare dailyRate: number;
   declare createdAt: CreationOptional<Date>;
   declare userId: ForeignKey<User["id"]>;
-
+  declare user?: NonAttribute<User>; // Association with User model
+  declare bookings?: NonAttribute<Booking[]>; // Association with Booking model
 }
 
 Rental.init(
@@ -81,7 +84,6 @@ Rental.init(
         model: "users",
         key: "id",
       },
-      primaryKey: true,
     },
   },
   {
@@ -89,5 +91,11 @@ Rental.init(
     modelName: "Rental",
     tableName: "rentals",
     timestamps: true,
+    indexes: [
+      {
+        fields: ["userId"],
+        name: "idx_rental_userId",
+      },
+    ],
   }
 );

@@ -42,13 +42,13 @@ Booking.init(
       type: DataTypes.DATE,
     },
     totalPrice: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
     },
     days: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
     },
     guests: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -65,7 +65,6 @@ Booking.init(
         model: "users",
         key: "id",
       },
-      primaryKey: true,
     },
     rentalId: {
       type: DataTypes.STRING,
@@ -74,7 +73,6 @@ Booking.init(
         model: "rentals",
         key: "id",
       },
-      primaryKey: true,
     },
   },
   {
@@ -82,5 +80,15 @@ Booking.init(
     modelName: "Booking",
     tableName: "bookings",
     timestamps: true,
+    indexes: [
+      {
+        fields: ["userId"],
+        name: "bookings_userId_idx",
+      },
+      {
+        fields: ["rentalId"],
+        name: "bookings_rentalId_idx",
+      },
+    ],
   }
 );
