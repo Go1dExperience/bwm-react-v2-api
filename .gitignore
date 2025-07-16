@@ -1,2 +1,105 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Intellij Idea related file
+.idea
+*.iml
+atlassian-ide-plugin.xml
+
+# Eclipse
+.settings
+.project
+.classpath
+
+# maven generated files
+.repository
+**/target/*
+!**/rates/target/*
+
+# Atomikos tm files
+erfp/configs/test/.tm/
+
+# JRebel filessmarth
+rebel.xml
+rebel-remote.xml
+
+# Utility files
+*.log
+*.patch
+
+erfp/configs/local/.tm
+
+# Mac OS
+*.DS_Store
+
+local_docker
+.rebel.xml.bak
+
+erfp/svl-sourcing-erfp-customer/src/main/webapp/resources/scss/style.css
+erfp/svl-sourcing-erfp-customer/src/main/webapp/resources/scss/style.css.map
+erfp/svl-sourcing-erfp-customer/src/main/webapp/resources/scss/modules/distance_to_pois.css
+
+# sass
+.sass-cache
+
+# node
 node_modules
-.env
+
+# local configs
+**/*LOCAL-AKR02*
+erfp/deployment/local-docker-env/docker-compose-local.yml
+
+# ansible
+**/*.retry
+
+**/.factorypath
+allure-report/*
+**/*.versionsBackup
+/version.txt
+
+### Terraform
+**/.terraform.lock.hcl
+**/.terraform
+**/terraform.tfstate.d
+**/.devops/k8s/*.yml
+**/*.tfstate
+**/terraform.tfvars.json
+**/terraform.tfvars
+**/test.tfvars
+**/*.db.gz
+**/dumps
+build
