@@ -9,7 +9,7 @@ export class BookingRepository extends BaseRepository<Booking> {
   }
   findByUserId(userId: number): Promise<Booking[]> {
     return this.findAll({
-      where: { user: userId },
+      where: { userId: userId },
       include: [
         { model: User, as: "user" },
         { model: Rental, as: "rental" },

@@ -8,6 +8,6 @@ export class RentalRepository extends BaseRepository<Rental> {
     super(Rental);
   }
   async findByUserId(userId: number): Promise<Rental[]> {
-    return this.findAll({ where: { user: userId } });
+    return this.findAll({ where: { userId: userId } });
   }
 }
