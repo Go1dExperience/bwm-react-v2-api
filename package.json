@@ -6,7 +6,8 @@
     "start": "node dist/index.js",
     "dev": "npx nodemon",
     "build": "npx tsc",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "@types/node": "^22.15.29",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^9.28.0",
+    "husky": "^9.1.7",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
     "sequelize-cli": "^6.6.3",
