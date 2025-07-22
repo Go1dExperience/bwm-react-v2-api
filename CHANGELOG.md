@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.2.3...v1.3.0) (2025-07-22)
+
+
+### Features
+
+* setup cognito and seeds, fix incorrect injection error ([3b578a8](https://github.com/Go1dExperience/bwm-react-v2-api/commit/3b578a8c474165bcda4d8371db78c459205ccc7b))
+
 ### [1.2.3](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.2.2...v1.2.3) (2025-07-22)
 
 
