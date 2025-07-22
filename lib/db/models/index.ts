@@ -12,11 +12,11 @@ Booking.belongsTo(User, {
 });
 
 User.hasMany(Rental, {
-  foreignKey: "user",
+  foreignKey: "userId",
   as: "rentals",
 });
 Rental.belongsTo(User, {
-  foreignKey: "user",
+  foreignKey: "id",
   as: "owner",
 });
 

@@ -26,6 +26,7 @@ export class Rental extends Model<
   declare shared: boolean;
   declare dailyRate: number;
   declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
   declare userId: ForeignKey<User["id"]>;
   declare user?: NonAttribute<User>; // Association with User model
   declare bookings?: NonAttribute<Booking[]>; // Association with Booking model
@@ -74,6 +75,10 @@ Rental.init(
       allowNull: false,
     },
     createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
