@@ -1,10 +1,13 @@
-import { RentalRepository } from './../../repositories/rental.repository';
+import { instanceToPlain } from "class-transformer";
+import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
-import { BookingRepository } from "../../repositories/booking.repository";
-import { Booking, Rental } from "../../lib/db/models";
 import moment from "moment";
-import { CustomError } from '../../utils/customError';
-import { StatusCodes } from 'http-status-codes';
+
+import { Booking, Rental } from "../../lib/db/models";
+import { BookingRepository } from "../../repositories/booking.repository";
+import { RentalRepository } from "../../repositories/rental.repository";
+import { CustomError } from "../../utils/customError";
+import { BookingResponseDTO } from "./booking.dto";
 
 @injectable()
 export class BookingService {
@@ -12,7 +15,7 @@ export class BookingService {
     @inject("BookingRepository")
     private bookingRepository: BookingRepository,
     @inject("RentalRepository")
-    private rentalRepository: RentalRepository,
+    private rentalRepository: RentalRepository
   ) {}
   public validateBookingDate = (newBooking: Booking, rental: Rental) => {
     if (!rental.bookings || rental.bookings.length === 0) {
@@ -51,25 +54,38 @@ export class BookingService {
         "Cannot book your own rental"
       );
     }
-    const isValidBookingDate = this.validateBookingDate(
-      booking,
-      rental
-    );
+    const isValidBookingDate = this.validateBookingDate(booking, rental);
     if (!isValidBookingDate) {
       throw new CustomError(
         StatusCodes.BAD_REQUEST,
         "This property is already booked in the chosen range"
       );
     }
-    const response = await this.bookingRepository.create({
+    const createdBooking = await this.bookingRepository.create({
       ...booking,
       userId,
       rentalId: rental.id,
     });
+    const response = new BookingResponseDTO(createdBooking);
     return {
-      data: response,
+      data: instanceToPlain(response),
       errorCode: null,
-      message: "Booking created successfully"
+      message: "Booking created successfully",
+    };
+  };
+  public getBookingsByUserId = async (userId: string) => {
+    const bookings = await this.bookingRepository.findAll({
+      where: { userId },
+      include: ["rental"],
+    });
+    if (!bookings || bookings.length === 0) {
+      throw new CustomError(
+        StatusCodes.NOT_FOUND,
+        `No bookings found for user with id ${userId}`
+      );
     }
+    return bookings
+      .map((booking) => new BookingResponseDTO(booking))
+      .map((booking) => instanceToPlain(booking));
   };
 }

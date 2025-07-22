@@ -18,9 +18,9 @@ container
   .to(BookingRepository);
 container.bind<RentalRepository>(TYPES.RentalRepository).to(RentalRepository);
 
-container.bind<UserService>(TYPES.UserService).to(UserService);
-container.bind<RentalService>(TYPES.RentalService).to(RentalService);
-container.bind<BookingService>(TYPES.BookingService).to(BookingService);
+container.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
+container.bind<RentalService>(TYPES.RentalService).to(RentalService).inSingletonScope();
+container.bind<BookingService>(TYPES.BookingService).to(BookingService).inSingletonScope();
 
 container.bind<UserController>(TYPES.UserController).to(UserController);
 container
