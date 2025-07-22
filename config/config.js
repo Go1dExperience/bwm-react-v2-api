@@ -9,6 +9,7 @@ module.exports = {
     dialect: "postgres",
     logging: console.log,
     url: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+    logging: true
   },
   production: {
     username: process.env.DB_USER,
@@ -18,5 +19,6 @@ module.exports = {
     dialect: "postgres",
     logging: false,
     url: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+    logging: false
   },
 };

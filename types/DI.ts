@@ -7,6 +7,7 @@ const TYPES = {
   UserService: Symbol.for("UserService"),
   RentalService: Symbol.for("RentalService"),
   BookingService: Symbol.for("BookingService"),
+  AuthService: Symbol.for("AuthService"),
 
   UserController: Symbol.for("UserController"),
   BookingController: Symbol.for("BookingController"),

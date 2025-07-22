@@ -8,13 +8,14 @@ import { BookingRepository } from "../../repositories/booking.repository";
 import { RentalRepository } from "../../repositories/rental.repository";
 import { CustomError } from "../../utils/customError";
 import { BookingResponseDTO } from "./booking.dto";
+import TYPES from "../../types/DI";
 
 @injectable()
 export class BookingService {
   constructor(
-    @inject("BookingRepository")
+    @inject(TYPES.BookingRepository)
     private bookingRepository: BookingRepository,
-    @inject("RentalRepository")
+    @inject(TYPES.RentalRepository)
     private rentalRepository: RentalRepository
   ) {}
   public validateBookingDate = (newBooking: Booking, rental: Rental) => {
@@ -84,8 +85,12 @@ export class BookingService {
         `No bookings found for user with id ${userId}`
       );
     }
-    return bookings
-      .map((booking) => new BookingResponseDTO(booking))
-      .map((booking) => instanceToPlain(booking));
+    return {
+      data: bookings
+        .map((booking) => new BookingResponseDTO(booking))
+        .map((booking) => instanceToPlain(booking)),
+      errorCode: null,
+      message: "Bookings retrieved successfully",
+    };
   };
 }

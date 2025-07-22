@@ -9,6 +9,7 @@ import { RentalService } from "./api/rental/rental.service";
 import { BookingRepository } from "./repositories/booking.repository";
 import { RentalRepository } from "./repositories/rental.repository";
 import { UserRepository } from "./repositories/user.repository";
+import { AuthService } from "./api/auth/auth.service";
 import TYPES from "./types/DI";
 
 const container = new Container();
@@ -21,6 +22,7 @@ container.bind<RentalRepository>(TYPES.RentalRepository).to(RentalRepository);
 container.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
 container.bind<RentalService>(TYPES.RentalService).to(RentalService).inSingletonScope();
 container.bind<BookingService>(TYPES.BookingService).to(BookingService).inSingletonScope();
+container.bind<AuthService>(TYPES.AuthService).to(AuthService).inSingletonScope();
 
 container.bind<UserController>(TYPES.UserController).to(UserController);
 container
