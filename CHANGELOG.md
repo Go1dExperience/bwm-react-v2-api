@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.4.0...v1.5.0) (2025-07-23)
+
+
+### Features
+
+* finish auth route. \n Add readme ([d1d0697](https://github.com/Go1dExperience/bwm-react-v2-api/commit/d1d0697a3b03c9781ae71fed3c2c2ac509643654))
+
 ## [1.4.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.3.1...v1.4.0) (2025-07-23)
 
 
