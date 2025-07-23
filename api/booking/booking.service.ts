@@ -68,11 +68,7 @@ export class BookingService {
       rentalId: rental.id,
     });
     const response = new BookingResponseDTO(createdBooking);
-    return {
-      data: instanceToPlain(response),
-      errorCode: null,
-      message: "Booking created successfully",
-    };
+    return instanceToPlain(response);
   };
   public getBookingsByUserId = async (userId: string) => {
     const bookings = await this.bookingRepository.findAll({
@@ -85,12 +81,8 @@ export class BookingService {
         `No bookings found for user with id ${userId}`
       );
     }
-    return {
-      data: bookings
-        .map((booking) => new BookingResponseDTO(booking))
-        .map((booking) => instanceToPlain(booking)),
-      errorCode: null,
-      message: "Bookings retrieved successfully",
-    };
+    return bookings
+      .map((booking) => new BookingResponseDTO(booking))
+      .map((booking) => instanceToPlain(booking));
   };
 }

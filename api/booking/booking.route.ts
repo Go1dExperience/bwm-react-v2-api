@@ -1,12 +1,30 @@
 import express from "express";
+
 import container from "../../inversify.config";
-import { BookingController } from "./booking.controller";
+import { RouterConfig } from "../../types";
 import TYPES from "../../types/DI";
+import { BookingController } from "./booking.controller";
 
-const router = express.Router();
-const bookingController = container.get<BookingController>(TYPES.BookingController);
+export class BookingRoutes implements RouterConfig {
+  public path = "/bookings";
+  public router = express.Router();
+  private bookingController: BookingController;
 
-router.post("/", bookingController.createBooking.bind(bookingController));
-router.get("/user", bookingController.getBookingByUserId.bind(bookingController));
+  constructor() {
+    this.bookingController = container.get<BookingController>(
+      TYPES.BookingController
+    );
+    this.initRoutes();
+  }
 
-export default router;
+  public initRoutes(): void {
+    this.router.post(
+      "/",
+      this.bookingController.createBooking.bind(this.bookingController)
+    );
+    this.router.get(
+      "/user",
+      this.bookingController.getBookingByUserId.bind(this.bookingController)
+    );
+  }
+}

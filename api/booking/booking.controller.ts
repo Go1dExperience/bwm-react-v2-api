@@ -50,11 +50,15 @@ export class BookingController {
       booking,
       user.id
     );
-    res.status(StatusCodes.OK).send(createSuccessResponse(response));
+    res
+      .status(StatusCodes.OK)
+      .send(createSuccessResponse(response, "Booking created successfully"));
   };
   public getBookingByUserId = async (req: Request, res: Response) => {
     const user: User = req.user!;
     const bookings = await this.bookingService.getBookingsByUserId(user.id);
-    res.status(StatusCodes.OK).send(createSuccessResponse(bookings));
+    res
+      .status(StatusCodes.OK)
+      .send(createSuccessResponse(bookings, "Bookings retrieved successfully"));
   };
 }

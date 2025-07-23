@@ -1,14 +1,23 @@
 import { Router } from "express";
+
 import container from "../../inversify.config";
-import { UserController } from "./user.controller";
+import { RouterConfig } from "../../types";
 import TYPES from "../../types/DI";
+import { UserController } from "./user.controller";
+export class UserRoutes implements RouterConfig {
+  public path = "/users";
+  public router = Router();
+  private userController: UserController;
 
-const router = Router();
-const userController = container.get<UserController>(TYPES.UserController);
+  constructor() {
+    this.userController = container.get<UserController>(TYPES.UserController);
+    this.initRoutes();
+  }
 
-router.get(
-  "/:userId/rentals",
-  userController.findUserRentals.bind(userController)
-);
-
-export default router;
+  public initRoutes(): void {
+    this.router.get(
+      "/:userId/rentals",
+      this.userController.findUserRentals.bind(this.userController)
+    );
+  }
+}

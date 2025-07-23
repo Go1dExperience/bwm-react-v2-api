@@ -1,36 +1,30 @@
-import { UserRepository } from "./../../repositories/user.repository";
-import {
-  CognitoIdentityProviderClient,
-  SignUpCommand,
-  SignUpRequest,
-} from "@aws-sdk/client-cognito-identity-provider";
-import CognitoSingleton from "../../utils/cognito";
-import { inject } from "inversify";
-import { CustomError } from "../../utils/customError";
 import { StatusCodes } from "http-status-codes";
+import { inject } from "inversify";
+
+import { UserRepository } from "../../repositories/user.repository";
 import TYPES from "../../types/DI";
+import CognitoClient from "../../utils/cognito";
+import { CustomError } from "../../utils/customError";
 
 export class AuthService {
-  private cognitoClient: CognitoIdentityProviderClient = CognitoSingleton;
+  private cognitoClient: typeof CognitoClient;
   constructor(
     @inject(TYPES.UserRepository)
     private userRepository: UserRepository
-  ) {}
+  ) {
+    this.cognitoClient = CognitoClient;
+  }
   public signUp = async (email: string, password: string, username: string) => {
-    const params: SignUpRequest = {
-      ClientId: process.env.AWS_COGNITO_CLIENT_ID!,
-      Username: email,
-      Password: password,
-      UserAttributes: [
-        {
-          Name: "email",
-          Value: email,
-        },
-      ],
-    };
-    const response = await this.cognitoClient.send(new SignUpCommand(params));
+    const response = await this.cognitoClient.userSignUp(email, password);
     if (!response.UserSub) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, "Can not create user");
+      throw new CustomError(StatusCodes.BAD_REQUEST, "Can not create user.");
+    }
+    const confirmResponse = await this.cognitoClient.adminConfirmSignUp(email);
+    if (!confirmResponse) {
+      throw new CustomError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        "User confirmation failed."
+      );
     }
     const user = await this.userRepository.create({
       email,
@@ -41,13 +35,9 @@ export class AuthService {
     if (!user) {
       throw new CustomError(
         StatusCodes.INTERNAL_SERVER_ERROR,
-        "User creation failed"
+        "User creation failed."
       );
     }
-    return {
-      data: user,
-      message: "User created successfully",
-      errorCode: null,
-    };
+    return user;
   };
 }

@@ -2,5 +2,5 @@
 	"watch": ".",
 	"ext": ".js,.json,.ts",
 	"ignore": ["node_modules", "dist", "build", "coverage", "/lib/db/migrations/*", "/lib/db/seeds/*"],
-	"exec": "npx ts-node --transpile-only --prefer-ts-exts ./index.ts"
+	"exec": "npx ts-node --transpile-only --prefer-ts-exts ./server.ts"
 }
