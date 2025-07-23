@@ -2,11 +2,12 @@ import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 
+import { AuthRoutes } from "./api/auth/auth.route";
+import { BookingRoutes } from "./api/booking/booking.route";
+import { RentalRoutes } from "./api/rental/rental.route";
+import { UserRoutes } from "./api/user/user.route";
 import App from "./app";
 import { errorHandler } from "./middlewares/errorHandler";
-import { UserRoutes } from "./api/user/user.route";
-import { RentalRoutes } from "./api/rental/rental.route";
-import { BookingRoutes } from "./api/booking/booking.route";
 
 const app = new App({
   port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
@@ -18,7 +19,12 @@ const app = new App({
     // @ts-ignore
     errorHandler,
   ],
-  routers: [new UserRoutes(), new RentalRoutes(), new BookingRoutes()],
+  routers: [
+    new UserRoutes(),
+    new RentalRoutes(),
+    new BookingRoutes(),
+    new AuthRoutes(),
+  ],
 });
 
 app.listen(() => {

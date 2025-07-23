@@ -18,7 +18,7 @@ export class BookingService {
     @inject(TYPES.RentalRepository)
     private rentalRepository: RentalRepository
   ) {}
-  public validateBookingDate = (newBooking: Booking, rental: Rental) => {
+  private validateBookingDate = (newBooking: Booking, rental: Rental) => {
     if (!rental.bookings || rental.bookings.length === 0) {
       return true;
     }

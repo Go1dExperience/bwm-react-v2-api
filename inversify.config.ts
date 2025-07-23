@@ -11,6 +11,7 @@ import { RentalRepository } from "./repositories/rental.repository";
 import { UserRepository } from "./repositories/user.repository";
 import { AuthService } from "./api/auth/auth.service";
 import TYPES from "./types/DI";
+import { AuthController } from "./api/auth/auth.controller";
 
 const container = new Container();
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository);
@@ -29,4 +30,5 @@ container
   .bind<BookingController>(TYPES.BookingController)
   .to(BookingController);
 container.bind<RentalController>(TYPES.RentalController).to(RentalController);
+container.bind<AuthController>(TYPES.AuthController).to(AuthController);
 export default container;

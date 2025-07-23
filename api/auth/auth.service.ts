@@ -3,8 +3,11 @@ import { inject } from "inversify";
 
 import { UserRepository } from "../../repositories/user.repository";
 import TYPES from "../../types/DI";
-import CognitoClient from "../../utils/cognito";
+import CognitoClient from "../../lib/aws/cognito";
 import { CustomError } from "../../utils/customError";
+import { instanceToPlain } from "class-transformer";
+import { AuthTokenResponseDTO } from "./auth.dto";
+import { UserResponseDTO } from "../user/user.dto";
 
 export class AuthService {
   private cognitoClient: typeof CognitoClient;
@@ -14,7 +17,7 @@ export class AuthService {
   ) {
     this.cognitoClient = CognitoClient;
   }
-  public signUp = async (email: string, password: string, username: string) => {
+  public signUp = async (email: string, username: string, password: string) => {
     const response = await this.cognitoClient.userSignUp(email, password);
     if (!response.UserSub) {
       throw new CustomError(StatusCodes.BAD_REQUEST, "Can not create user.");
@@ -29,7 +32,6 @@ export class AuthService {
     const user = await this.userRepository.create({
       email,
       username,
-      password,
       id: response.UserSub,
     });
     if (!user) {
@@ -38,6 +40,19 @@ export class AuthService {
         "User creation failed."
       );
     }
-    return user;
+    return instanceToPlain(new UserResponseDTO(user));
+  };
+  public signIn = async (email: string, password: string) => {
+    const response = await this.cognitoClient.userSignIn(email, password);
+    if (!response.AuthenticationResult) {
+      return null;
+    }
+    return instanceToPlain(
+      new AuthTokenResponseDTO({
+        accessToken: response.AuthenticationResult.AccessToken,
+        refreshToken: response.AuthenticationResult.RefreshToken,
+        idToken: response.AuthenticationResult.IdToken,
+      })
+    );
   };
 }

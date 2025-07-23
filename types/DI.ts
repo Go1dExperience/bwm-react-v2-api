@@ -1,3 +1,4 @@
+import { AuthController } from './../api/auth/auth.controller';
 // Dependency Injection Types
 const TYPES = {
   UserRepository: Symbol.for("UserRepository"),
@@ -12,5 +13,6 @@ const TYPES = {
   UserController: Symbol.for("UserController"),
   BookingController: Symbol.for("BookingController"),
   RentalController: Symbol.for("RentalController"),
+  AuthController: Symbol.for("AuthController"),
 };
 export default TYPES;
