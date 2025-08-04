@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.6.0...v1.7.0) (2025-08-04)
+
+
+### Features
+
+* authentication and auth middleware using cognito ([aefb72f](https://github.com/Go1dExperience/bwm-react-v2-api/commit/aefb72f30a0a56199e6005e9acfcfcb0cf85c51c))
+
 ## [1.6.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.5.0...v1.6.0) (2025-08-04)
 
 
