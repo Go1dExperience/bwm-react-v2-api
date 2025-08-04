@@ -85,5 +85,34 @@ export class AuthController {
     res
       .status(StatusCodes.OK)
       .send(createSuccessResponse(response, "User signed in successfully"));
-  }
+  };
+  public refreshToken = async (req: Request, res: Response) => {
+    const refreshToken = req.body.refreshToken;
+    if (!refreshToken) {
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .send(
+          createErrorResponse(
+            StatusCodes.BAD_REQUEST,
+            "Refresh token is required."
+          )
+        );
+      return;
+    }
+    const response = await this.authService.refreshToken(refreshToken);
+    if (!response) {
+      res
+        .status(StatusCodes.UNAUTHORIZED)
+        .send(
+          createErrorResponse(
+            StatusCodes.UNAUTHORIZED,
+            "Invalid refresh token."
+          )
+        );
+      return;
+    }
+    res
+      .status(StatusCodes.OK)
+      .send(createSuccessResponse(response, "Token refreshed successfully"));
+  };
 }

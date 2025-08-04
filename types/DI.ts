@@ -1,4 +1,3 @@
-import { AuthController } from './../api/auth/auth.controller';
 // Dependency Injection Types
 const TYPES = {
   UserRepository: Symbol.for("UserRepository"),

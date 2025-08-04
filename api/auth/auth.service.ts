@@ -55,4 +55,17 @@ export class AuthService {
       })
     );
   };
+  public refreshToken = async (refreshToken: string) => {
+    const response = await this.cognitoClient.refreshToken(refreshToken);
+    if (!response.AuthenticationResult) {
+      return null;
+    }
+    return instanceToPlain(
+      new AuthTokenResponseDTO({
+        accessToken: response.AuthenticationResult.AccessToken,
+        refreshToken: response.AuthenticationResult.RefreshToken,
+        idToken: response.AuthenticationResult.IdToken,
+      })
+    );
+  }
 }

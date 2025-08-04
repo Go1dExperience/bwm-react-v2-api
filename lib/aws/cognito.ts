@@ -4,6 +4,7 @@ import {
   AdminConfirmSignUpCommandOutput,
   AuthFlowType,
   CognitoIdentityProviderClient,
+  GetTokensFromRefreshTokenCommand,
   InitiateAuthCommand,
   SignUpCommand,
   SignUpRequest,
@@ -23,7 +24,7 @@ class CognitoClient {
       process.env.AWS_COGNITO_CLIENT_SECRET!
     );
     const params: SignUpRequest = {
-      ClientId: process.env.AWS_COGNITO_CLIENT_ID!,
+      ClientId: process.env.AWS_COGNITO_CLIENT_ID,
       Username: email,
       SecretHash: secretHash,
       Password: password,
@@ -54,13 +55,21 @@ class CognitoClient {
       process.env.AWS_COGNITO_CLIENT_SECRET!
     );
     const command = new InitiateAuthCommand({
-      ClientId: process.env.AWS_COGNITO_CLIENT_ID!,
+      ClientId: process.env.AWS_COGNITO_CLIENT_ID,
       AuthFlow: AuthFlowType.USER_PASSWORD_AUTH,
       AuthParameters: {
         USERNAME: email,
         PASSWORD: password,
         SECRET_HASH: secretHash,
       },
+    });
+    return await this.instance.send(command);
+  };
+  public refreshToken = async (refreshToken: string) => {
+    const command = new GetTokensFromRefreshTokenCommand({
+      ClientId: process.env.AWS_COGNITO_CLIENT_ID,
+      ClientSecret: process.env.AWS_COGNITO_CLIENT_SECRET,
+      RefreshToken: refreshToken,
     });
     return await this.instance.send(command);
   };

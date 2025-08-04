@@ -4,6 +4,7 @@ import container from "../../inversify.config";
 import { RouterConfig } from "../../types";
 import TYPES from "../../types/DI";
 import { UserController } from "./user.controller";
+import { authMiddleware } from "../../middlewares/auth";
 export class UserRoutes implements RouterConfig {
   public path = "/users";
   public router = Router();
@@ -17,6 +18,7 @@ export class UserRoutes implements RouterConfig {
   public initRoutes(): void {
     this.router.get(
       "/:userId/rentals",
+      authMiddleware(),
       this.userController.findUserRentals.bind(this.userController)
     );
   }

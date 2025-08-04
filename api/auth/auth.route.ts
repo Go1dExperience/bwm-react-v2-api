@@ -24,5 +24,9 @@ export class AuthRoutes implements RouterConfig {
       "/signin",
       this.authController.signIn.bind(this.authController)
     );
+    this.router.post(
+      "/refresh",
+      this.authController.refreshToken.bind(this.authController)
+    );
   }
 }

@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import logger from "../utils/logger";
 import { CustomError } from "../utils/customError";
 import { createErrorResponse } from "../utils/apiResponse";
+import { UnauthorizedError } from "express-jwt";
 
 export function errorHandler(
   err: Error,
@@ -24,6 +25,13 @@ export function errorHandler(
     res
       .status(err.statusCode)
       .send(createErrorResponse(err.statusCode, err.message));
+    return;
+  }
+  if (err instanceof UnauthorizedError) {
+    logger.log(`Unauthorized error occurred: ${err.message}, Request Info: ${requestInfo}`);
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .send(createErrorResponse(StatusCodes.UNAUTHORIZED, "Unauthorized access"));
     return;
   }
   logger.log(`Unhandled error occurred: ${err}, Request Info: ${requestInfo}`);
