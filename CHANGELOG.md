@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.5.0...v1.6.0) (2025-08-04)
+
+
+### Features
+
+* deploy using terraform and eks ([58a8dc8](https://github.com/Go1dExperience/bwm-react-v2-api/commit/58a8dc8a5c633dcf046b35b1c5999cce67bff8a7))
+
 ## [1.5.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.4.0...v1.5.0) (2025-07-23)
 
 
