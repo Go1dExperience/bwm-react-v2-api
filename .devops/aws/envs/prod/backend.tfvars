@@ -1,0 +1,6 @@
+bucket               = "bwm-prod-terraform-state"
+key                  = "bwm/bwm-api"
+workspace_key_prefix = "infra"
+encrypt              = "true"
+region               = "us-east-1"
+use_lockfile				 = "true"

@@ -1,0 +1,19 @@
+---
+env: 'prod'
+
+vpc_id: 'vpc-0dec7d2d58f1a8700'
+vpc_cidr_block: '10.0.0.0/16'
+
+private_subnets:
+  - 'subnet-002ba37b35a4894c7'
+  - 'subnet-09ceef72123716705'
+
+instance_type: "t2.micro"
+secret_manager_name: "bwm/bwm-api/prod-secret"
+
+# rds
+rds_backup_retention_period: 7
+rds_username: "app"
+rds_instance_class: "db.t3.micro"
+rds_parameter_group_name: "default.postgresql12"
+rds_engine_version: "12.8"
