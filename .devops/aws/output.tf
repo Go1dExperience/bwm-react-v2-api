@@ -18,3 +18,7 @@ output "rds_proxy_custom_endpoint" {
   description = "RDS Proxy custom endpoint"
   value       = aws_db_proxy_endpoint.this.endpoint
 }
+
+output "terraform_iam_principal" {
+  value = data.aws_caller_identity.current.arn
+}

@@ -41,15 +41,6 @@ data "tls_certificate" "oidc_cert" {
   url = aws_eks_cluster.bwm-cluster.identity[0].oidc[0].issuer
 }
 
-resource "kubernetes_service_account" "irsa" {
-  metadata {
-    name      = "${local.env}-${local.vars.application}-service-account"
-    namespace = "${kubernetes_namespace.prod-namespace.metadata[0].name}"
-    annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_role.irsa_role.arn
-    }
-  }
-}
 data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}

@@ -15,5 +15,5 @@ secret_manager_name: "bwm/bwm-api/prod-secret"
 rds_backup_retention_period: 7
 rds_username: "app"
 rds_instance_class: "db.t3.micro"
-rds_parameter_group_name: "default.postgresql12"
-rds_engine_version: "12.8"
+rds_parameter_group_name: "default.postgres16"
+rds_engine_version: "16.3"

@@ -15,6 +15,22 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   role       = aws_iam_role.eks_cluster.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
+resource "aws_iam_role_policy_attachment" "eks_block_storage_policy" {
+  role       = aws_iam_role.eks_cluster.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy"
+}
+resource "aws_iam_role_policy_attachment" "eks_compute_policy" {
+  role       = aws_iam_role.eks_cluster.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSComputePolicy"
+}
+resource "aws_iam_role_policy_attachment" "eks_load_balancer_policy" {
+  role       = aws_iam_role.eks_cluster.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy"
+}
+resource "aws_iam_role_policy_attachment" "eks_network_policy" {
+  role       = aws_iam_role.eks_cluster.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy"
+}
 # Same as ecs task execution role
 resource "aws_iam_role" "eks_node" {
   name = "eks-node-role"
@@ -32,6 +48,12 @@ resource "aws_iam_role_policy_attachment" "eks_worker_node_policy" {
   role       = aws_iam_role.eks_node.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
+
+resource "aws_iam_role_policy_attachment" "eks_worker_node_ecr_policy" {
+  role       = aws_iam_role.eks_node.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly"
+}
+
 # Needed for the VPC CNI plugin, which handles pod networking. 
 resource "aws_iam_role_policy_attachment" "eks_cni_policy" {
   role       = aws_iam_role.eks_node.name
@@ -56,9 +78,19 @@ resource "aws_iam_role" "irsa_role" {
       Action = "sts:AssumeRoleWithWebIdentity",
       Condition = {
         StringEquals = {
-          "${replace(aws_eks_cluster.bwm-cluster.identity[0].oidc[0].issuer, "https://", "")}:sub" = "system:serviceaccount:${kubernetes_namespace.prod-namespace.metadata[0].name}:${local.env}-${local.vars.application}-service-account"
+          "${replace(aws_eks_cluster.bwm-cluster.identity[0].oidc[0].issuer, "https://", "")}:sub" = "system:serviceaccount:default:${local.env}-${local.vars.application}-service-account"
         }
       }
     }]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "irsa_s3_access" {
+  role       = aws_iam_role.irsa_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "irsa_dynamodb_access" {
+  role       = aws_iam_role.irsa_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBReadOnlyAccess"
 }
