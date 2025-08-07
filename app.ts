@@ -19,22 +19,6 @@ class App {
 
     this.middlewares(appInit.middlewares);
     this.routes(appInit.routers);
-    this.app.get("/health", (_, res) => {
-      const healthcheck = {
-        uptime: process.uptime(),
-        message: "OK",
-        timestamp: Date.now(),
-        status: 200,
-      };
-      try {
-        res.send(healthcheck);
-      } catch (error) {
-        healthcheck.message =
-          typeof error === "string" ? error : "Internal Server Error";
-        healthcheck.status = 503;
-        res.status(503).send(healthcheck);
-      }
-    });
   }
   public listen(callback?: () => void): void {
     this.app.listen(this.port, callback);

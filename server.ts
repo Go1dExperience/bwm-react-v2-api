@@ -6,6 +6,7 @@ import { AuthRoutes } from "./api/auth/auth.route";
 import { BookingRoutes } from "./api/booking/booking.route";
 import { RentalRoutes } from "./api/rental/rental.route";
 import { UserRoutes } from "./api/user/user.route";
+import { CommonRoutes } from "./api/common/common.route";
 import App from "./app";
 import { errorHandler } from "./middlewares/errorHandler";
 
@@ -24,6 +25,7 @@ const app = new App({
     new RentalRoutes(),
     new BookingRoutes(),
     new AuthRoutes(),
+    new CommonRoutes(),
   ],
 });
 
