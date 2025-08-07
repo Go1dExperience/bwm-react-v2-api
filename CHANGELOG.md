@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.8.0...v1.8.1) (2025-08-07)
+
+
+### Bug Fixes
+
+* refactor health check route ([9104d76](https://github.com/Go1dExperience/bwm-react-v2-api/commit/9104d76cf79717757f142fa71a365739d82d1d54))
+
 ## [1.8.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.7.0...v1.8.0) (2025-08-07)
 
 
