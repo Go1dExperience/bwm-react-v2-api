@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.7.0...v1.8.0) (2025-08-07)
+
+
+### Features
+
+* finish deployment of service to eks ([1e21cee](https://github.com/Go1dExperience/bwm-react-v2-api/commit/1e21cee7f4ead5a3d17f0d67f708a3d9c29d29d9))
+
 ## [1.7.0](https://github.com/Go1dExperience/bwm-react-v2-api/compare/v1.6.0...v1.7.0) (2025-08-04)
 
 
